@@ -1,3 +1,11 @@
+# How to run
+
+First install dependencies with `npm install`
+
+Run tests with `npm run test`
+
+To run a demo of the game `npm run start`.  This will start the nodemon which will reload as you change the code.
+
 # Technical Test 
 The theme of this test is the game of go.
 

@@ -12,7 +12,47 @@ describe('Goban game', () => {
     expect(game.isTaken(1,1)).toBeFalsy();
    })
 
-  test('o is taken because she has no freedom (the top and the left are out of the goban so they are not freedoms)', () => {
+  test('. is not taken because it is empty', () => {
+    const board = [
+      '...',
+      '#.#',
+      '.#.'
+    ]
+    const game = new Goban(board);
+    expect(game.isTaken(1,1)).toBeFalsy();
+   })
+
+  test('position 3,3 is not taken because it is out', () => {
+    const board = [
+      '...',
+      '#.#',
+      '.#.'
+    ]
+    const game = new Goban(board);
+    expect(game.isTaken(3,3)).toBeFalsy();
+   })
+
+  test('o is not taken because she has a freedom all round', () => {
+    const board = [
+      '...',
+      '.o.',
+      '...'
+    ]
+    const game = new Goban(board);
+    expect(game.isTaken(1,1)).toBeFalsy();
+   })
+
+  test('o is taken because she is surrounded', () => {
+    const board = [
+      '###',
+      '#o#',
+      '###'
+    ]
+    const game = new Goban(board);
+    expect(game.isTaken(1,1)).toBeTruthy();
+   })
+
+  test('o is taken because she has no freedom', () => {
     const board = [
       'o#',
       '#.',
@@ -100,7 +140,7 @@ describe('Goban game', () => {
     expect(game.isTaken(4,1)).toBeFalsy();
    })
 
-   test('the form is taken because it has no freedom on large board', () => {
+   test('the form o is taken because it has no freedom on large board', () => {
     const board = [
       '..#######.........',
       '..##oooo###.........',

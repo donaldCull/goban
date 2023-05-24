@@ -25,20 +25,18 @@ export default class Goban {
   }
 
   private floodFill(x: number, y: number) {
+    const { above, below, left, right } = directionMap(x, y);
+    
     const coord = `${x}-${y}`;
     if (this.coordMap.has(coord)) {
       return;
     }
     this.coordMap.set(coord, coord);
 
-    const { above, below, left, right } = directionMap(x, y);
-
     const currentStone = this.getStatus(x, y);
-    if (
-      currentStone === PositionStatus.OUT ||
-      currentStone === PositionStatus.EMPTY
-    ) {
-      this.coordMap.set('freedom', coord)
+    if (currentStone === PositionStatus.OUT) {
+      this.coordMap.set('out', coord);
+      return;
     }
 
     const aboveCurrent = this.getStatus(above.x, above.y);
@@ -51,7 +49,7 @@ export default class Goban {
       leftOfCurrent === PositionStatus.EMPTY ||
       rightOfCurrent === PositionStatus.EMPTY
     ) {
-      this.coordMap.set('freedom', coord)
+      this.coordMap.set('freedom', coord);
     }
 
     if (aboveCurrent === currentStone) {
@@ -73,7 +71,7 @@ export default class Goban {
 
   isTaken(x: number, y: number) {
     this.floodFill(x, y);
-    const result = !this.coordMap.has('freedom');
+    const result = !this.coordMap.has('freedom') && !this.coordMap.has('out');
     this.coordMap.clear();
     return result;
   }
